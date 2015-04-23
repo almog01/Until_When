@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">הגדרות</string>
+    <string name="add_btn">הוסף</string>
+    <string name="cancel">ביטול</string>
+    <string name="custom">מותאם אישית</string>
+    <string name="cycles">מחזורים</string>
+    <string name="day">יום:</string>
+    <string name="day_length">משך יום:</string>
+    <string name="day_time">זמני יום:</string>
+    <string name="empty_name">אתה מצפה שאני ינחש את השם?!</string>
+    <string name="end">סוף</string>
+    <string name="equally">שווה בשווה</string>
+    <string name="hour">שעה</string>
+    <string name="hours">שעות</string>
+    <string name="length">משך</string>
+    <string name="make_list">הכן רשימה</string>
+    <string name="minute">דקה</string>
+    <string name="minutes">דקות</string>
+    <string name="night">לילה:</string>
+    <string name="night_length">משך לילה:</string>
+    <string name="night_time">זמני לילה:</string>
+    <string name="no_selection">למחוק את מה?!</string>
+    <string name="ok">אישור</string>
+    <string name="remove_btn">מחק</string>
+    <string name="select_cycles">בחר מספר מחזורים</string>
+    <string name="select_date">בחר תאריך</string>
+    <string name="select_day_length">בחר משך יום</string>
+    <string name="select_night_length">בחר משך לילה</string>
+    <string name="select_time">בחר זמן</string>
+    <string name="share">שתף</string>
+    <string name="share_via">שתף באמצעות...</string>
+    <string name="shuffle_btn">ערבב</string>
+    <string name="start">התחלה</string>
+    <string name="type_name">רשום שם</string>
+    <string name="app_name">עד מתי?</string>
+    <string name="empty_list">לחץ על "הוסף"</string>
+    <string name="empty_lists">הרשימות שלך ריקות!</string>
+</resources>
