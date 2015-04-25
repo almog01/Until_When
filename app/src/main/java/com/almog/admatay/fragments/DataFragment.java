@@ -6,17 +6,18 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.almog.admatay.MainActivity;
@@ -36,8 +37,9 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
 
     public StringBuilder sb = new StringBuilder();
 
-    private EditText dateView, dayStartView, dayEndView, nightStartView, nightEndView, dayLengthView, nightLengthView, dayCyclesView, nightCyclesView;
-    private RadioGroup dayGroup, nightGroup;
+    private static EditText dayStartView, dayEndView, nightStartView, nightEndView, dayLengthView, nightLengthView, dayCyclesView, nightCyclesView;
+    private static Button dateBtn;
+    private static RadioGroup dayGroup, nightGroup;
     private static Calendar calendar = Calendar.getInstance();
     private static int mYear = calendar.get(Calendar.YEAR);
     private static int mMonth = calendar.get(Calendar.MONTH);
@@ -64,14 +66,34 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.data, container, false);
+        /*if (savedInstanceState != null){
+            mYear = savedInstanceState.getInt("year");
+            mMonth = savedInstanceState.getInt("month");
+            mDay = savedInstanceState.getInt("day");
+            EditText dateTextView = (EditText) view.findViewById(R.id.dateTextView);
+            dateTextView.setText(savedInstanceState.getString("dateTextView"));
+            dateTextView.setTextColor(savedInstanceState.getInt("dateViewColor"));
+        }else{
+
+        }*/
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        /*outState.putInt("year", mYear);
+        outState.putInt("month", mYear);
+        outState.putInt("day", mDay);
+        outState.putCharSequence("dateTextView", dateBtn.getText());
+        outState.putInt("dateViewColor", dateBtn.getCurrentTextColor());*/
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        dateView = (EditText) getActivity().findViewById(R.id.dateView);
-        dateView.setOnClickListener(this);
+        dateBtn = (Button) getActivity().findViewById(R.id.dateBtn);
+        dateBtn.setOnClickListener(this);
         dayStartView = (EditText) getActivity().findViewById(R.id.dayStartView);
         dayStartView.setOnClickListener(this);
         dayEndView = (EditText) getActivity().findViewById(R.id.dayEndView);
@@ -94,13 +116,20 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
         nightGroup.setOnCheckedChangeListener(this);
 
 
-        //dateView.setText(savedInstanceState.getCharSequence("savedDate"));
+       /* if (savedInstanceState != null){
+            mYear = savedInstanceState.getInt("year");
+            mMonth = savedInstanceState.getInt("month");
+            mDay = savedInstanceState.getInt("day");
+            dateBtn.setText(savedInstanceState.getCharSequence("dateTextView"));
+        }else{
+
+        }*/
     }
 
 /*    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        CharSequence date = dateView.getText();
+        CharSequence date = dateTextView.getText();
         outState.putCharSequence("savedDate", date);
     }*/
 
@@ -109,15 +138,15 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.dateView:
+            case R.id.dateBtn:
                 Picker.datePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
                         mYear = selectedYear;
                         mMonth = selectedMonth;
                         mDay = selectedDay;
-                        dateView.setText(mDay + "/" + (mMonth+1) + "/" + mYear);
-                        dateView.setTextColor(Color.BLACK);
+                        dateBtn.setText(mDay + "/" + (mMonth + 1) + "/" + mYear);
+                        //dateTextView.setTextColor(Color.BLACK);
                     }
                 }, mYear, mMonth, mDay);
                 break;
@@ -127,8 +156,8 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mDayStartHour = selectedHour;
                         mDayStartMinute = selectedMinute;
-                        dayStartView.setText(mDayStartHour+":"+mDayStartMinute);
-                        dayStartView.setTextColor(Color.BLACK);
+                        dayStartView.setText(mDayStartHour + ":" + mDayStartMinute);
+                        //dayStartView.setTextColor(Color.BLACK);
                     }
                 }, mDayStartHour, mDayStartMinute);
                 break;
@@ -139,7 +168,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                         mDayEndHour = selectedHour;
                         mDayEndMinute = selectedMinute;
                         dayEndView.setText(mDayEndHour + ":" + mDayEndMinute);
-                        dayEndView.setTextColor(Color.BLACK);
+                        //dayEndView.setTextColor(Color.BLACK);
                     }
                 }, mDayEndHour, mDayEndMinute);
                 break;
@@ -150,7 +179,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                         mNightStartHour = selectedHour;
                         mNightStartMinute = selectedMinute;
                         nightStartView.setText(mNightStartHour + ":" + mNightStartMinute);
-                        nightStartView.setTextColor(Color.BLACK);
+                        //nightStartView.setTextColor(Color.BLACK);
                     }
                 }, mNightStartHour, mNightStartMinute);
                 break;
@@ -161,7 +190,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                         mNightEndHour = selectedHour;
                         mNightEndMinute = selectedMinute;
                         nightEndView.setText(mNightEndHour + ":" + mNightEndMinute);
-                        nightEndView.setTextColor(Color.BLACK);
+                        //nightEndView.setTextColor(Color.BLACK);
                     }
                 }, mNightEndHour, mNightEndMinute);
                 break;
@@ -172,8 +201,8 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onClick(View v) {
                         mDayHourLength = dayLengthPicker.hourPicker.getValue();
                         mDayMinuteLength = dayLengthPicker.minutePicker.getValue();
-                        dayLengthView.setText(mDayHourLength+" "+getString(R.string.hours)+" "+mDayMinuteLength+" "+getString(R.string.minutes));
-                        dayLengthView.setTextColor(Color.BLACK);
+                        dayLengthView.setText(mDayHourLength + " " + getString(R.string.hours) + " " + mDayMinuteLength + " " + getString(R.string.minutes));
+                        //dayLengthView.setTextColor(Color.BLACK);
                         dayLengthPicker.numberPickerDialog.dismiss();
                     }
                 }, R.string.select_day_length, mDayHourLength, mDayMinuteLength);
@@ -185,8 +214,8 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onClick(View v) {
                         mNightHourLength = nightLengthPicker.hourPicker.getValue();
                         mNightMinuteLength = nightLengthPicker.minutePicker.getValue();
-                        nightLengthView.setText(mNightHourLength+" "+getString(R.string.hours)+" "+mNightMinuteLength+" "+getString(R.string.minutes));
-                        nightLengthView.setTextColor(Color.BLACK);
+                        nightLengthView.setText(mNightHourLength + " " + getString(R.string.hours) + " " + mNightMinuteLength + " " + getString(R.string.minutes));
+                        //nightLengthView.setTextColor(Color.BLACK);
                         nightLengthPicker.numberPickerDialog.dismiss();
                     }
                 }, R.string.select_night_length, mNightHourLength, mNightMinuteLength);
@@ -197,8 +226,8 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     @Override
                     public void onClick(View v) {
                         mDayCycles = dayCyclesPicker.cyclesPicker.getValue();
-                        dayCyclesView.setText(mDayCycles+" "+getString(R.string.cycles));
-                        dayCyclesView.setTextColor(Color.BLACK);
+                        dayCyclesView.setText(mDayCycles + " " + getString(R.string.cycles));
+                        //dayCyclesView.setTextColor(Color.BLACK);
                         dayCyclesPicker.numberPickerDialog.dismiss();
                     }
                 }, mDayCycles);
@@ -209,8 +238,8 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     @Override
                     public void onClick(View v) {
                         mNightCycles = nightCyclesPicker.cyclesPicker.getValue();
-                        nightCyclesView.setText(mNightCycles+" "+getString(R.string.cycles));
-                        nightCyclesView.setTextColor(Color.BLACK);
+                        nightCyclesView.setText(mNightCycles + " " + getString(R.string.cycles));
+                        //nightCyclesView.setTextColor(Color.BLACK);
                         nightCyclesPicker.numberPickerDialog.dismiss();
                     }
                 }, mNightCycles);

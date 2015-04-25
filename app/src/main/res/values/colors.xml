@@ -6,4 +6,5 @@
     <color name="colorAccent">#FF5722</color>
     <color name="transparent">#00000000</color>
     <color name="tabsScrollColor">#87000000</color>
+    <color name="firstTimeText">#57000000</color>
 </resources>

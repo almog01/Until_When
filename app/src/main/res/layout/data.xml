@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
 
-    <EditText
+    <!-- <EditText
         android:id="@+id/dateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,9 +16,37 @@
         android:inputType="date"
         android:padding="16dp"
         android:text="@string/select_date"
-        android:textColor="#57000000"
         android:textSize="20sp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:textColor="#ff000000"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_date"
+        android:id="@+id/dateTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentTop="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="#ff000000"
+        android:textSize="20sp"
+        android:visibility="gone" />
+-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_date"
+        android:id="@+id/dateBtn"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textSize="20sp" />
 
     <GridLayout
         android:id="@+id/timeLayout"
@@ -26,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/dateView"
+        android:layout_below="@+id/dateBtn"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -73,8 +101,8 @@
                 android:gravity="center"
                 android:inputType="time"
                 android:text="@string/start"
-                android:textColor="#57000000"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="#ff000000" />
 
             <TextView
                 android:id="@+id/textView"
@@ -95,8 +123,8 @@
                 android:gravity="center"
                 android:inputType="time"
                 android:text="@string/end"
-                android:textColor="#57000000"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="#ff000000" />
         </LinearLayout>
 
         <LinearLayout
@@ -118,8 +146,8 @@
                 android:gravity="center"
                 android:inputType="time"
                 android:text="@string/start"
-                android:textColor="#57000000"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="#ff000000" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -140,8 +168,8 @@
                 android:gravity="center"
                 android:inputType="time"
                 android:text="@string/end"
-                android:textColor="#57000000"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="#ff000000" />
         </LinearLayout>
 
     </GridLayout>
@@ -216,9 +244,9 @@
             android:text="@string/cycles"
             android:textSize="16sp"
             android:focusable="false"
-            android:textColor="#57000000"
             android:visibility="visible"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="#ff000000" />
 
         <EditText
             android:id="@+id/dayLengthView"
@@ -284,9 +312,9 @@
             android:text="@string/cycles"
             android:textSize="16sp"
             android:focusable="false"
-            android:textColor="#57000000"
             android:visibility="visible"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="#ff000000" />
 
         <EditText
             android:id="@+id/nightLengthView"
