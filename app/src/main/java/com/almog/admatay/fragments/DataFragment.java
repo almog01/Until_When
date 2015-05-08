@@ -37,22 +37,22 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
 
     public StringBuilder sb = new StringBuilder();
 
-    private static EditText dayStartView, dayEndView, nightStartView, nightEndView, dayLengthView, nightLengthView, dayCyclesView, nightCyclesView;
-    private static Button dateBtn;
+    private static EditText dateView, dayStartView, dayEndView, nightStartView, nightEndView, dayLengthView, nightLengthView, dayCyclesView, nightCyclesView;
     private static RadioGroup dayGroup, nightGroup;
     private static Calendar calendar = Calendar.getInstance();
     private static int mYear = calendar.get(Calendar.YEAR);
     private static int mMonth = calendar.get(Calendar.MONTH);
     private static int mDay = calendar.get(Calendar.DAY_OF_MONTH) +1;
 
-    private static int mDayStartHour = 6;
-    private static int mDayStartMinute = 0;
-    private static int mDayEndHour = 18;
-    private static int mDayEndMinute = 0;
-    private static int mNightStartHour = 18;
-    private static int mNightStartMinute = 0;
-    private static int mNightEndHour = 6;
-    private static int mNightEndMinute = 0;
+    private static DateTime time = new DateTime();
+    private static int mDayStartHour = time.getHourOfDay();
+    private static int mDayStartMinute = time.getMinuteOfHour();
+    private static int mDayEndHour = time.getHourOfDay();
+    private static int mDayEndMinute = time.getMinuteOfHour();
+    private static int mNightStartHour = time.getHourOfDay();
+    private static int mNightStartMinute = time.getMinuteOfHour();
+    private static int mNightEndHour = time.getHourOfDay();
+    private static int mNightEndMinute = time.getMinuteOfHour();
     private static int mDayHourLength = 3;
     private static int mDayMinuteLength = 0;
     private static int mNightHourLength = 3;
@@ -66,34 +66,36 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.data, container, false);
-        /*if (savedInstanceState != null){
-            mYear = savedInstanceState.getInt("year");
-            mMonth = savedInstanceState.getInt("month");
-            mDay = savedInstanceState.getInt("day");
-            EditText dateTextView = (EditText) view.findViewById(R.id.dateTextView);
-            dateTextView.setText(savedInstanceState.getString("dateTextView"));
-            dateTextView.setTextColor(savedInstanceState.getInt("dateViewColor"));
+        if (savedInstanceState != null){
+            mYear = savedInstanceState.getInt("Year");
+            mMonth = savedInstanceState.getInt("Month");
+            mDay = savedInstanceState.getInt("Day");
+            EditText dateView = (EditText) view.findViewById(R.id.dateView);
+            dateView.setText(savedInstanceState.getString("DateText"));
+            mDayStartHour = savedInstanceState.getInt("DayStartHour");
+            mDayStartMinute = savedInstanceState.getInt("DayStartMinute");
         }else{
 
-        }*/
+        }
         return view;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        /*outState.putInt("year", mYear);
-        outState.putInt("month", mYear);
-        outState.putInt("day", mDay);
-        outState.putCharSequence("dateTextView", dateBtn.getText());
-        outState.putInt("dateViewColor", dateBtn.getCurrentTextColor());*/
+        outState.putInt("Year", mYear);
+        outState.putInt("Month", mYear);
+        outState.putInt("Day", mDay);
+        outState.putCharSequence("DateText", dateView.getText());
+        outState.putInt("DayStartHour", mDayStartHour);
+        outState.putInt("DayStartMinute", mDayStartMinute);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        dateBtn = (Button) getActivity().findViewById(R.id.dateBtn);
-        dateBtn.setOnClickListener(this);
+        dateView = (EditText) getActivity().findViewById(R.id.dateView);
+        dateView.setOnClickListener(this);
         dayStartView = (EditText) getActivity().findViewById(R.id.dayStartView);
         dayStartView.setOnClickListener(this);
         dayEndView = (EditText) getActivity().findViewById(R.id.dayEndView);
@@ -115,37 +117,29 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
         nightGroup = (RadioGroup) getActivity().findViewById(R.id.nightGroup);
         nightGroup.setOnCheckedChangeListener(this);
 
-
-       /* if (savedInstanceState != null){
+        /*if (savedInstanceState != null){
             mYear = savedInstanceState.getInt("year");
             mMonth = savedInstanceState.getInt("month");
             mDay = savedInstanceState.getInt("day");
-            dateBtn.setText(savedInstanceState.getCharSequence("dateTextView"));
+            dateTV.setText(savedInstanceState.getCharSequence("dateTextView"));
         }else{
 
         }*/
     }
-
-/*    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        CharSequence date = dateTextView.getText();
-        outState.putCharSequence("savedDate", date);
-    }*/
 
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.dateBtn:
+            case R.id.dateView:
                 Picker.datePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
                         mYear = selectedYear;
                         mMonth = selectedMonth;
                         mDay = selectedDay;
-                        dateBtn.setText(mDay + "/" + (mMonth + 1) + "/" + mYear);
+                        dateView.setText(mDay + "/" + (mMonth + 1) + "/" + mYear);
                         //dateTextView.setTextColor(Color.BLACK);
                     }
                 }, mYear, mMonth, mDay);
@@ -286,14 +280,14 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
             DateTime dayStartTime = new DateTime(2015, 1, 1, mDayStartHour, mDayStartMinute);
             DateTime dayEndTime = new DateTime(2015, 1, dayRepair, mDayEndHour, mDayEndMinute);
             Duration dayLength = new Duration(dayStartTime, dayEndTime);
-            long shiftDay;
+            int shiftDay;
             if (mIsDayEqually){
-                shiftDay = (dayLength.getMillis() / tempDayList.size()) / mDayCycles;
+                shiftDay = (int) ((dayLength.getMillis() / tempDayList.size()) / mDayCycles);
             }else{
                 shiftDay = (DateTimeConstants.MILLIS_PER_HOUR*mDayHourLength) + (DateTimeConstants.MILLIS_PER_MINUTE*mDayMinuteLength);
             }
-            long dividedDay = dayLength.getMillis() / shiftDay;
-            long leftOfDay = dayLength.getMillis() % shiftDay;
+            int dividedDay = (int) (dayLength.getMillis() / shiftDay);
+            int leftOfDay = (int) (dayLength.getMillis() % shiftDay);
 
             for (int i = 1; i <= dividedDay; i++){
                 shiftsDay.add(new Shift(
@@ -328,14 +322,14 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
             DateTime nightStartTime = new DateTime(2015, 1, 1, mNightStartHour, mNightStartMinute);
             DateTime nightEndTime = new DateTime(2015, 1, nightRepair, mNightEndHour, mNightEndMinute);
             Duration nightLength = new Duration(nightStartTime, nightEndTime);
-            long shiftNight;
+            int shiftNight;
             if (mIsNightEqually){
-                shiftNight = (nightLength.getMillis() / tempNightList.size()) / mNightCycles;
+                shiftNight = (int) ((nightLength.getMillis() / tempNightList.size()) / mNightCycles);
             }else{
                 shiftNight = (DateTimeConstants.MILLIS_PER_HOUR*mNightHourLength) + (DateTimeConstants.MILLIS_PER_MINUTE*mNightMinuteLength);
             }
-            long dividedNight = nightLength.getMillis() / shiftNight;
-            long leftOfNight = nightLength.getMillis() % shiftNight;
+            int dividedNight = (int) (nightLength.getMillis() / shiftNight);
+            int leftOfNight = (int) (nightLength.getMillis() % shiftNight);
 
             for (int i = 1; i <= dividedNight; i++){
                 shiftsNight.add(new Shift(
@@ -363,8 +357,8 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
         if (tempDayList.size() != 0){
             sb.append("\n");
             int day = 0;
-            for (Shift shift : shiftsDay){
-                if (shift.startTime.getMinuteOfHour() != 00 || shift.endTime.getMinuteOfHour() != 00){
+            /*for (Shift shift : shiftsDay){
+                if (shift.startTime.getMinuteOfHour() != 00 || shift.endTime.getMinuteOfHour() != 00){*/
                     for(int i = 0; i < shiftsDay.size(); i++){
                         sb.append("\n").append(String.format("%02d", shiftsDay.get(i).startTime.getHourOfDay()) + ":" + String.format("%02d", shiftsDay.get(i).startTime.getMinuteOfHour()) + " - " + String.format("%02d", shiftsDay.get(i).endTime.getHourOfDay()) + ":" + String.format("%02d", shiftsDay.get(i).endTime.getMinuteOfHour()) + " " + tempDayList.get(day));
                         day++;
@@ -372,25 +366,16 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                             day = 0;
                         }
                     }
-                    break;
-                }else{
-                    for(int i = 0; i < shiftsDay.size(); i++){
-                        sb.append("\n").append(String.format("%02d", shiftsDay.get(i).startTime.getHourOfDay()) + " - " + String.format("%02d", shiftsDay.get(i).endTime.getHourOfDay()) + " " + tempDayList.get(day));
-                        day++;
-                        if (day >= tempDayList.size()){
-                            day = 0;
-                        }
-                    }
-                    break;
-                }
-            }
+                    //break;
+                //}
+            //}
         }
 
         if (tempNightList.size() != 0){
             sb.append("\n");
             int night = 0;
-            for (Shift shift : shiftsNight){
-                if (shift.startTime.getMinuteOfHour() != 00 || shift.endTime.getMinuteOfHour() != 00){
+            /*for (Shift shift : shiftsNight){
+                if (shift.startTime.getMinuteOfHour() != 00 || shift.endTime.getMinuteOfHour() != 00){*/
                     for(int i = 0; i < shiftsNight.size(); i++){
                         sb.append("\n").append(String.format("%02d", shiftsNight.get(i).startTime.getHourOfDay()) + ":" + String.format("%02d", shiftsNight.get(i).startTime.getMinuteOfHour()) + " - " + String.format("%02d", shiftsNight.get(i).endTime.getHourOfDay()) + ":" + String.format("%02d", shiftsNight.get(i).endTime.getMinuteOfHour()) + " " + tempNightList.get(night));
                         night++;
@@ -398,7 +383,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                             night = 0;
                         }
                     }
-                    break;
+                    /*break;
                 }else{
                     for(int i = 0; i < shiftsNight.size(); i++){
                         sb.append("\n").append(String.format("%02d", shiftsNight.get(i).startTime.getHourOfDay()) + " - " + String.format("%02d", shiftsNight.get(i).endTime.getHourOfDay()) + " " + tempNightList.get(night));
@@ -409,7 +394,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     }
                     break;
                 }
-            }
+            }*/
         }
         AlertDialog.Builder completedList = new AlertDialog.Builder(context);
         MainActivity.input = new EditText(context);
