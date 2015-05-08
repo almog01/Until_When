@@ -34,6 +34,11 @@
     <string name="start">התחלה</string>
     <string name="type_name">רשום שם</string>
     <string name="app_name">עד מתי?</string>
-    <string name="empty_list">לחץ על "הוסף"</string>
+    <string name="empty_list">לחץ על \"הוסף\"</string>
     <string name="empty_lists">הרשימות שלך ריקות!</string>
+    <string-array name="titles">
+        <item>נתונים</item>
+        <item>רשימת יום</item>
+        <item>רשימת לילה</item>
+    </string-array>
 </resources>
