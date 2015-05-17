@@ -106,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             if (DayListFragment.dayList.size() == 0 && NightListFragment.nightList.size() == 0){
                 Toast.makeText(this, R.string.empty_lists, Toast.LENGTH_SHORT).show();
             }else {
-                DataFragment df = new DataFragment();
+                /*DataFragment df = new DataFragment();
                 df.CalculateList(this, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -124,7 +124,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
-                });
+                });*/
+                Intent listActivity = new Intent(this, ListActivity.class);
+                this.startActivity(listActivity);
             }
         }
     }

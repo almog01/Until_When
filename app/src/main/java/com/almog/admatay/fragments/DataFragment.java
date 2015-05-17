@@ -38,28 +38,28 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
     private static EditText dateView, dayStartView, dayEndView, nightStartView, nightEndView, dayLengthView, nightLengthView, dayCyclesView, nightCyclesView;
     private static RadioGroup dayGroup, nightGroup;
     private static Calendar calendar = Calendar.getInstance();
-    private static int mYear = calendar.get(Calendar.YEAR);
+    private static int mYear = calendar.get(Calendar.YEAR);// % 100;
     private static int mMonth = calendar.get(Calendar.MONTH);
     private static int mDay = calendar.get(Calendar.DAY_OF_MONTH) +1;
 
     private static DateTime time = new DateTime();
-    private static int mDayStartHour = time.getHourOfDay();
-    private static int mDayStartMinute = time.getMinuteOfHour();
-    private static int mDayEndHour = time.getHourOfDay();
-    private static int mDayEndMinute = time.getMinuteOfHour();
-    private static int mNightStartHour = time.getHourOfDay();
-    private static int mNightStartMinute = time.getMinuteOfHour();
-    private static int mNightEndHour = time.getHourOfDay();
-    private static int mNightEndMinute = time.getMinuteOfHour();
-    private static int mDayHourLength = 3;
-    private static int mDayMinuteLength = 0;
-    private static int mNightHourLength = 3;
-    private static int mNightMinuteLength = 0;
-    private static boolean mIsDayEqually = true;
-    private static boolean mIsNightEqually = true;
+    public static int mDayStartHour = time.getHourOfDay();
+    public static int mDayStartMinute = time.getMinuteOfHour();
+    public static int mDayEndHour = time.getHourOfDay();
+    public static int mDayEndMinute = time.getMinuteOfHour();
+    public static int mNightStartHour = time.getHourOfDay();
+    public static int mNightStartMinute = time.getMinuteOfHour();
+    public static int mNightEndHour = time.getHourOfDay();
+    public static int mNightEndMinute = time.getMinuteOfHour();
+    public static int mDayHourLength = 3;
+    public static int mDayMinuteLength = 0;
+    public static int mNightHourLength = 3;
+    public static int mNightMinuteLength = 0;
+    public static boolean mIsDayEqually = true;
+    public static boolean mIsNightEqually = true;
 
-    private static int mDayCycles = 1;
-    private static int mNightCycles = 1;
+    public static int mDayCycles = 1;
+    public static int mNightCycles = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -137,7 +137,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                         mYear = selectedYear;
                         mMonth = selectedMonth;
                         mDay = selectedDay;
-                        dateView.setText(mDay + "/" + (mMonth + 1) + "/" + mYear);
+                        dateView.setText(mDay + "/" + (mMonth + 1) + "/" + (mYear % 100));
                         //dateTextView.setTextColor(Color.BLACK);
                     }
                 }, mYear, mMonth, mDay);
@@ -148,7 +148,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mDayStartHour = selectedHour;
                         mDayStartMinute = selectedMinute;
-                        dayStartView.setText(mDayStartHour + ":" + mDayStartMinute);
+                        dayStartView.setText(String.format("%02d",mDayStartHour) + ":" + String.format("%02d",mDayStartMinute));
                         //dayStartView.setTextColor(Color.BLACK);
                     }
                 }, mDayStartHour, mDayStartMinute);
@@ -159,7 +159,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mDayEndHour = selectedHour;
                         mDayEndMinute = selectedMinute;
-                        dayEndView.setText(mDayEndHour + ":" + mDayEndMinute);
+                        dayEndView.setText(String.format("%02d",mDayEndHour) + ":" + String.format("%02d",mDayEndMinute));
                         //dayEndView.setTextColor(Color.BLACK);
                     }
                 }, mDayEndHour, mDayEndMinute);
@@ -170,7 +170,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mNightStartHour = selectedHour;
                         mNightStartMinute = selectedMinute;
-                        nightStartView.setText(mNightStartHour + ":" + mNightStartMinute);
+                        nightStartView.setText(String.format("%02d",mNightStartHour) + ":" + String.format("%02d",mNightStartMinute));
                         //nightStartView.setTextColor(Color.BLACK);
                     }
                 }, mNightStartHour, mNightStartMinute);
@@ -181,7 +181,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mNightEndHour = selectedHour;
                         mNightEndMinute = selectedMinute;
-                        nightEndView.setText(mNightEndHour + ":" + mNightEndMinute);
+                        nightEndView.setText(String.format("%02d",mNightEndHour) + ":" + String.format("%02d",mNightEndMinute));
                         //nightEndView.setTextColor(Color.BLACK);
                     }
                 }, mNightEndHour, mNightEndMinute);

@@ -41,4 +41,5 @@
         <item>רשימת יום</item>
         <item>רשימת לילה</item>
     </string-array>
+    <string name="continue_btn">המשך</string>
 </resources>

@@ -42,5 +42,7 @@
         <item>Day List</item>
         <item>Night List</item>
     </string-array>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="continue_btn">Continue</string>
 
 </resources>
