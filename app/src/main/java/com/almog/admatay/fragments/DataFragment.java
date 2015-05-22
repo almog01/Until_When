@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
 
+import com.almog.admatay.ListActivity;
 import com.almog.admatay.MainActivity;
 import com.almog.admatay.Picker;
 import com.almog.admatay.R;
@@ -33,14 +34,14 @@ import java.util.List;
 
 public class DataFragment extends Fragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
 
-    public StringBuilder sb = new StringBuilder();
+    //public StringBuilder sb = new StringBuilder();
 
     private static EditText dateView, dayStartView, dayEndView, nightStartView, nightEndView, dayLengthView, nightLengthView, dayCyclesView, nightCyclesView;
     private static RadioGroup dayGroup, nightGroup;
     private static Calendar calendar = Calendar.getInstance();
-    private static int mYear = calendar.get(Calendar.YEAR);// % 100;
-    private static int mMonth = calendar.get(Calendar.MONTH);
-    private static int mDay = calendar.get(Calendar.DAY_OF_MONTH) +1;
+    public static int mYear = calendar.get(Calendar.YEAR);// % 100;
+    public static int mMonth = calendar.get(Calendar.MONTH);
+    public static int mDay = calendar.get(Calendar.DAY_OF_MONTH) +1;
 
     private static DateTime time = new DateTime();
     public static int mDayStartHour = time.getHourOfDay();
@@ -72,8 +73,6 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
             dateView.setText(savedInstanceState.getString("DateText"));
             mDayStartHour = savedInstanceState.getInt("DayStartHour");
             mDayStartMinute = savedInstanceState.getInt("DayStartMinute");
-        }else{
-
         }
         return view;
     }
@@ -148,7 +147,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mDayStartHour = selectedHour;
                         mDayStartMinute = selectedMinute;
-                        dayStartView.setText(String.format("%02d",mDayStartHour) + ":" + String.format("%02d",mDayStartMinute));
+                        dayStartView.setText(String.format("%02d:%02d",mDayStartHour, mDayStartMinute));
                         //dayStartView.setTextColor(Color.BLACK);
                     }
                 }, mDayStartHour, mDayStartMinute);
@@ -159,7 +158,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mDayEndHour = selectedHour;
                         mDayEndMinute = selectedMinute;
-                        dayEndView.setText(String.format("%02d",mDayEndHour) + ":" + String.format("%02d",mDayEndMinute));
+                        dayEndView.setText(String.format("%02d:%02d",mDayEndHour, mDayEndMinute));
                         //dayEndView.setTextColor(Color.BLACK);
                     }
                 }, mDayEndHour, mDayEndMinute);
@@ -170,7 +169,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mNightStartHour = selectedHour;
                         mNightStartMinute = selectedMinute;
-                        nightStartView.setText(String.format("%02d",mNightStartHour) + ":" + String.format("%02d",mNightStartMinute));
+                        nightStartView.setText(String.format("%02d:%02d",mNightStartHour, mNightStartMinute));
                         //nightStartView.setTextColor(Color.BLACK);
                     }
                 }, mNightStartHour, mNightStartMinute);
@@ -181,7 +180,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         mNightEndHour = selectedHour;
                         mNightEndMinute = selectedMinute;
-                        nightEndView.setText(String.format("%02d",mNightEndHour) + ":" + String.format("%02d",mNightEndMinute));
+                        nightEndView.setText(String.format("%02d:%02d",mNightEndHour, mNightEndMinute));
                         //nightEndView.setTextColor(Color.BLACK);
                     }
                 }, mNightEndHour, mNightEndMinute);
@@ -265,7 +264,7 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
         }
     }
 
-    public void CalculateList(Context context, DialogInterface.OnClickListener onShareClick, DialogInterface.OnClickListener onCancelClick){
+    /*public void CalculateList(Context context, DialogInterface.OnClickListener onShareClick, DialogInterface.OnClickListener onCancelClick){
         //---------------------Day:--------------------------------
         ArrayList<String> tempDayList = new ArrayList<>(DayListFragment.dayList);
         List<Shift> shiftsDay = new ArrayList<>();
@@ -355,8 +354,8 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
         if (tempDayList.size() != 0){
             sb.append("\n");
             int day = 0;
-            /*for (Shift shift : shiftsDay){
-                if (shift.startTime.getMinuteOfHour() != 00 || shift.endTime.getMinuteOfHour() != 00){*/
+            for (Shift shift : shiftsDay){
+                if (shift.startTime.getMinuteOfHour() != 0 || shift.endTime.getMinuteOfHour() != 0){
                     for(int i = 0; i < shiftsDay.size(); i++){
                         sb.append("\n").append(String.format("%02d", shiftsDay.get(i).startTime.getHourOfDay()) + ":" + String.format("%02d", shiftsDay.get(i).startTime.getMinuteOfHour()) + " - " + String.format("%02d", shiftsDay.get(i).endTime.getHourOfDay()) + ":" + String.format("%02d", shiftsDay.get(i).endTime.getMinuteOfHour()) + " " + tempDayList.get(day));
                         day++;
@@ -364,24 +363,24 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                             day = 0;
                         }
                     }
-                    //break;
-                //}
-            //}
+                    break;
+                }
+            }
         }
 
         if (tempNightList.size() != 0){
             sb.append("\n");
             int night = 0;
-            /*for (Shift shift : shiftsNight){
-                if (shift.startTime.getMinuteOfHour() != 00 || shift.endTime.getMinuteOfHour() != 00){*/
+            for (Shift shift : shiftsNight){
+                if (shift.startTime.getMinuteOfHour() != 0 || shift.endTime.getMinuteOfHour() != 0){
                     for(int i = 0; i < shiftsNight.size(); i++){
-                        sb.append("\n").append(String.format("%02d", shiftsNight.get(i).startTime.getHourOfDay()) + ":" + String.format("%02d", shiftsNight.get(i).startTime.getMinuteOfHour()) + " - " + String.format("%02d", shiftsNight.get(i).endTime.getHourOfDay()) + ":" + String.format("%02d", shiftsNight.get(i).endTime.getMinuteOfHour()) + " " + tempNightList.get(night));
+                        sb.append("\n"+ String.format("%02d", shiftsNight.get(i).startTime.getHourOfDay()) + ":" + String.format("%02d", shiftsNight.get(i).startTime.getMinuteOfHour()) + " - " + String.format("%02d", shiftsNight.get(i).endTime.getHourOfDay()) + ":" + String.format("%02d", shiftsNight.get(i).endTime.getMinuteOfHour()) + " " + tempNightList.get(night));
                         night++;
                         if (night >= tempNightList.size()){
                             night = 0;
                         }
                     }
-                    /*break;
+                    break;
                 }else{
                     for(int i = 0; i < shiftsNight.size(); i++){
                         sb.append("\n").append(String.format("%02d", shiftsNight.get(i).startTime.getHourOfDay()) + " - " + String.format("%02d", shiftsNight.get(i).endTime.getHourOfDay()) + " " + tempNightList.get(night));
@@ -392,15 +391,15 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
                     }
                     break;
                 }
-            }*/
+            }
         }
         AlertDialog.Builder completedList = new AlertDialog.Builder(context);
-        MainActivity.input = new EditText(context);
+        ListActivity.input = new EditText(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        MainActivity.input.setLayoutParams(lp);
-        MainActivity.input.append(sb);
+        ListActivity.input.setLayoutParams(lp);
+        ListActivity.input.append(sb);
         completedList.setView(MainActivity.input);
 
         completedList.setPositiveButton(context.getString(R.string.share), onShareClick);
@@ -409,4 +408,5 @@ public class DataFragment extends Fragment implements View.OnClickListener, Radi
 
         completedList.show();
     }
+    */
 }
